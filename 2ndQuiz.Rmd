@@ -1,0 +1,93 @@
+---
+title: "Pair Quiz"
+author: "Cabanayan, Cantal, San Luis"
+date: "7/29/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Question 2
+
+### An article in Optical Engineering ["Operating Curve Extraction of a Correlator's Filter" (2004, Vol. 43, pp. 2775-2779)] reported on the use of an optical correlator to perform an experiment by varying brightness and contrast. The resulting modulation is characterized by the useful range of gray levels. The data follow:
+  
+  
+```{r, echo=FALSE}
+correlator.data <- data.frame(
+ usefulrange = c(96, 50, 50, 112,	96,	80,	155, 144,	255),
+ brightness = c(54, 61, 65, 100,	100,	100,	50,	57,	54),
+ contrast = c(56,	80,	70,	50,	65,	80,	25,	35,	26))
+ correlator.data
+```
+
+  
+```{r}
+plot(correlator.data)
+multiple.regression <- lm(usefulrange ~ brightness + contrast, data=correlator.data)
+summary(multiple.regression)
+```
+  
+  
+#### A. Fit a multiple linear regression model to these data.
+
+Formula for multiple linear regression model:
+
+$$ y = \beta_0 + \beta_1 X_1 + \beta_2 X_2$$
+**where**
+
+**y = Useful range (ng)**  
+**B0 = y-intercept**  
+**B1 =  slope 1**
+**B2 =  slope 2**
+**X1 = Brightness (%)**  
+**X2 = Contrast (%)**  
+
+Inputting the values solved by our code chunk,
+
+$$ y = 238.56 + 0.3339 X_1 + (-2.7167) X_2
+\\ 
+\\
+= 238.56 + 0.3339 X_1 -2.7167 X_2$$
+
+#### B. Estimate  𝜎2.
+
+```{r}
+(summary(multiple.regression)$sigma)**2
+```
+
+
+#### C. Compute the standard errors of the regression coefficients.
+
+As seen from the results by our code chunk,
+
+$$ SE(\beta_0)=  45.2285
+\\
+SE(\beta_1)= 0.6763
+\\
+SE(\beta_2)= 0.6887$$
+
+#### D. Predict the useful range when brightness= 80 and contrast= 75.
+ 
+ We will use our multiple regression model and will be inputting our values knowing that X1 = 80 and X2 = 75.
+ 
+ $$ y = 238.56 + 0.3339 X_1 -2.7167 X_2 
+ \\
+ = 238.56 + 0.3339(80) - 2.7167(75)
+ \\
+ y = 61.5195 $$
+  
+#### E. Test for significance of regression using 𝛼=0.05. What is the P-value for this test?
+
+As seen in our code chunk, the p-value for this test is **0.01459**. As we should know, if the p-value for a variable is less than our significance level, we have enough evidence to reject our null hypothesis. Since we are given the significance level 𝛼=0.05, 
+
+$$ 0.01459 < 0.05 $$
+
+Therefore, 
+
+#### F. Construct a t-test on each regression coefficient. What conclusions can you draw about the variables in this model? Use 𝛼=0.05.
+
+ 
+
+
