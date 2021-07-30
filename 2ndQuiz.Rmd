@@ -1,19 +1,32 @@
 ---
-title: "Pair Quiz"
+title: "Module 4 Pair Quiz"
 author: "Cabanayan, Cantal, San Luis"
 date: "7/29/2021"
 output: html_document
 ---
+
+<style type="text/css">
+  body{
+  font-size: 12pt;
+  font-family: Georgia;
+  background-color: snow;
+}
+
+  .main-container {
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+}
+</style>
 
 ```{r setup, include=FALSE}
 library(scatterplot3d)
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Question 2
+<h1><span style="text-decoration: underline">Question 2</span></h1>
 
-### An article in Optical Engineering ["Operating Curve Extraction of a Correlator's Filter" (2004, Vol. 43, pp. 2775-2779)] reported on the use of an optical correlator to perform an experiment by varying brightness and contrast. The resulting modulation is characterized by the useful range of gray levels. The data follow:
-  
+#### An article in Optical Engineering ["Operating Curve Extraction of a Correlator's Filter" (2004, Vol. 43, pp. 2775-2779)] reported on the use of an optical correlator to perform an experiment by varying brightness and contrast. The resulting modulation is characterized by the useful range of gray levels. The data follow:
   
 ```{r, echo=FALSE}
 usefulrange <- c(96, 50, 50, 112,	96,	80,	155, 144,	255)
@@ -27,8 +40,13 @@ correlator.data <- data.frame(
  correlator.data
 ```
 
+<br>
+
+<h3><span style="text-decoration: underline">A. Fit a multiple linear regression model to these data.</span></h3>  
+
+The data is visualized in a 3D scatter plot below, with a fitted multiple regression model.
   
-```{r}
+```{r, echo = F}
 s3d <- scatterplot3d(brightness, contrast, usefulrange, type = "h", color = "blue", angle=30, pch = 16)
 
 multiple.regression <- lm(usefulrange ~ brightness + contrast, data=correlator.data)
@@ -37,14 +55,13 @@ s3d$plane3d(multiple.regression, lty.box = "solid")
 
 summary(multiple.regression)
 ```
-  
-  
-#### A. Fit a multiple linear regression model to these data.
 
-Formula for multiple linear regression model:
+The fitted regression model is also summarized, providing the estimated regression coefficients for each regressor variable, along with their respective $t$-values that can be used to check their individual significance to the regression model. The $F$-statistic is also provided, which measures the linear relationship between the resulting variable and the regressor variables.
 
-$$ y = \beta_0 + \beta_1 X_1 + \beta_2 X_2$$
-**where**
+The formula for a multiple linear regression model is given as:
+
+$$y = \beta_0 + \beta_1 X_1 + \beta_2 X_2$$
+where:
 
 **$y$ = Useful range (ng)**  
 **$\beta_0$ = y-intercept**  
@@ -53,23 +70,28 @@ $$ y = \beta_0 + \beta_1 X_1 + \beta_2 X_2$$
 **$X_1$ = Brightness (%)**  
 **$X_2$ = Contrast (%)**  
 
-Inputting the values solved by our code chunk,
+From the summary of the fitted regression model, it is solved to be:
 
 $$ y = 238.56 + 0.3339 X_1 + (-2.7167) X_2
 \\ 
 \\
 y = 238.56 + 0.3339 X_1 -2.7167 X_2$$
 
-#### B. Estimate $\sigma^2$.
+<br>
+
+<h3><span style="text-decoration: underline">B. Estimate $\sigma^2$.</span></h3>
+
+$\sigma^2$ can easily be obtained by obtaining the standard deviation $\sigma$ from the regression model. From the summary, $\sigma = 36.35$. Squaring this value provides us with the variance $\sigma^2$:
 
 ```{r}
 (summary(multiple.regression)$sigma)**2
 ```
 
+<br>
 
-#### C. Compute the standard errors of the regression coefficients.
+<h3><span style="text-decoration: underline">C. Compute the standard errors of the regression coefficients.</span></h3>
 
-As seen from the results by our code chunk,
+As seen from the summary of the model, the individual standard errors for each regression coefficient are:
 
 $$ SE(\beta_0)=  45.2285
 \\
@@ -77,17 +99,21 @@ SE(\beta_1)= 0.6763
 \\
 SE(\beta_2)= 0.6887$$
 
-#### D. Predict the useful range when brightness= 80 and contrast= 75.
+<br>
+
+<h3><span style="text-decoration: underline">D. Predict the useful range when brightness= 80 and contrast= 75.</span></h3>
  
- We will use our multiple regression model and will be inputting our values knowing that $X_1$ = 80 and $X_2$ = 75.
+We will use our multiple regression model and will be inputting our values knowing that $X_1$ = 80 and $X_2$ = 75.
  
  $$ y = 238.56 + 0.3339 X_1 - 2.7167 X_2 
  \\
  = 238.56 + 0.3339(80) - 2.7167(75)
  \\
  y = 61.5195 $$
+
+<br>
   
-#### E. Test for significance of regression using $\alpha=0.05$. What is the $P$-value for this test?
+<h3><span style="text-decoration: underline">E. Test for significance of regression using $\alpha=0.05$. What is the $P$-value for this test?</span></h3>
 
 The test for significance of regression is used to determine if a linear relationship exists between the response variable $y$ and the subset of regressor variables $x_1, x_2$.
 
@@ -105,7 +131,9 @@ $$0.01459 < 0.05$$
 
 Since the $P$-value is less that $\alpha$, the null hypothesis is rejected. Therefore, at least one of the variables is significant to the model.
 
-#### F. Construct a t-test on each regression coefficient. What conclusions can you draw about the variables in this model? Use $\alpha = 0.05$.
+<br>
+
+<h3><span style="text-decoration: underline">F. Construct a t-test on each regression coefficient. What conclusions can you draw about the variables in this model? Use $\alpha = 0.05$.</span></h3>
 
 The $t$-test is used to check the significance of each regression coefficient in the multiple linear regression model. The hypotheses for this test are:
 
@@ -117,7 +145,6 @@ The tested regression coefficient is not significant to the regression model.
 
 The tested regression coefficient is significant to the regression model.
 
-<br>
 <br>
 
 From the summary of the regression model, the $t$-value for each regression coefficient is given:
@@ -144,6 +171,6 @@ $$
 |(t_0)_{\hat{\beta}_2}| = 3.945 > 2.446912
 $$
 
-From the $t$-test for significance for $\beta_1$, there is not enough evidence to reject the null hypothesis. Therefore, the "brightness" variable is not significant to the regression model.
+From the $t$-test for significance for $\beta_1$, there is not enough evidence to reject the null hypothesis. Therefore, the **brightness** variable is **not significant** to the regression model.
 
-For the significance for $\beta_2$, there is enough evidence to reject the null hypothesis. Therefore, the "contrast" variable is significant to the regression model.
+For the significance for $\beta_2$, there is enough evidence to reject the null hypothesis. Therefore, the **contrast** variable is **significant** to the regression model.
